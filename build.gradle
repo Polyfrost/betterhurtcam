@@ -1,5 +1,5 @@
 plugins {
-    id "fabric-loom" version "1.4-SNAPSHOT"
+    id "fabric-loom" version "1.6-SNAPSHOT"
     id "io.freefair.lombok" version "8.4"
     id "org.ajoberstar.grgit" version "5.0.0"
 }
@@ -10,9 +10,6 @@ group = project.maven_group
 repositories {
     maven {
         url "https://maven.uku3lig.net/releases"
-    }
-    maven {
-        url = "https://maven.uku3lig.net/snapshots"
     }
 }
 
@@ -36,15 +33,17 @@ processResources {
     }
 }
 
-sourceCompatibility = JavaVersion.VERSION_17
-targetCompatibility = JavaVersion.VERSION_17
-
 tasks.withType(JavaCompile).configureEach {
     it.options.encoding = "UTF-8"
 }
 
-java {
+base {
     archivesBaseName = project.archives_base_name
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
 }
 
 jar {
