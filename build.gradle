@@ -33,12 +33,8 @@ processResources {
     }
 }
 
-tasks.withType(JavaCompile).configureEach {
-    it.options.encoding = "UTF-8"
-}
-
 base {
-    archivesBaseName = project.archives_base_name
+    archivesName = project.archives_base_name
 }
 
 java {
@@ -46,8 +42,12 @@ java {
     targetCompatibility = JavaVersion.VERSION_21
 }
 
+tasks.withType(JavaCompile).configureEach {
+    it.options.encoding = "UTF-8"
+}
+
 jar {
     from("LICENSE") {
-        rename { "${it}_${project.archivesBaseName}" }
+        rename { "${it}_${project.base.archivesName.get()}" }
     }
 }
