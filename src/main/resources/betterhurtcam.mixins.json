@@ -10,5 +10,8 @@
     "MixinGameRenderer",
     "MixinInGameHud",
     "MixinMinecraftClient"
+  ],
+  "mixins": [
+    "MixinLivingEntity"
   ]
 }
