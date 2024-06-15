@@ -1,7 +1,10 @@
 package net.uku3lig.betterhurtcam.mixin;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.LivingEntity;
 import net.uku3lig.betterhurtcam.BetterHurtCam;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -19,5 +22,13 @@ public class MixinGameRenderer {
     @Inject(method = "tiltViewWhenHurt", at = @At("HEAD"), cancellable = true)
     public void disableHurtCam(MatrixStack matrices, float tickDelta, CallbackInfo ci) {
         if (!BetterHurtCam.getManager().getConfig().isEnabled()) ci.cancel();
+    }
+
+    @WrapOperation(method = "tiltViewWhenHurt", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;getDamageTiltYaw()F"))
+    public float changeHurtCamType(LivingEntity instance, Operation<Float> original) {
+        return switch (BetterHurtCam.getManager().getConfig().getType()) {
+            case OLD -> 0;
+            case YAW_BASED -> original.call(instance);
+        };
     }
 }
