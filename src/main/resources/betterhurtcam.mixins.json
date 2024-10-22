@@ -8,7 +8,6 @@
   },
   "client": [
     "MixinGameRenderer",
-    "MixinInGameHud",
-    "MixinMinecraftClient"
+    "MixinInGameHud"
   ]
 }
