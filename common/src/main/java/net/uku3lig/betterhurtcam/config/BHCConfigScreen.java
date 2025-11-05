@@ -10,8 +10,8 @@ import net.uku3lig.ukulib.config.screen.AbstractConfigScreen;
 import java.util.Locale;
 import java.util.Optional;
 
-public class ConfigScreen extends AbstractConfigScreen<BHCConfig> {
-    public ConfigScreen(Screen parent) {
+public class BHCConfigScreen extends AbstractConfigScreen<BHCConfig> {
+    public BHCConfigScreen(Screen parent) {
         super("BetterHurtCam Config", parent, BetterHurtCam.getManager());
     }
 
