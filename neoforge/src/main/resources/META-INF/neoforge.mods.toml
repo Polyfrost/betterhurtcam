@@ -9,9 +9,7 @@ version = "${version}"
 
 logoFile = "assets/betterhurtcam/icon.png"
 authors = "uku"
-description = '''
-nohurtcam but better
-'''
+description = "nohurtcam but better"
 
 [[dependencies.betterhurtcam]]
 modId = "minecraft"

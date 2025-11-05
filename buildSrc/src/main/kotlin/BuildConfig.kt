@@ -4,8 +4,7 @@ object BuildConfig {
     const val MINECRAFT_VERSION: String = "1.21.10"
     const val NEOFORGE_VERSION: String = "21.10.47-beta"
     const val FABRIC_LOADER_VERSION: String = "0.17.2"
-    const val FABRIC_API_VERSION: String = "0.137.0+1.21.10"
-    const val UKULIB_VERSION: String = "2.0.0-alpha.1+mc1.21.10-build.265"
+    const val UKULIB_VERSION: String = "2.0.0-alpha.1+mc1.21.10-build.267"
 
     const val MOD_VERSION: String = "1.12.0-alpha.1"
 
