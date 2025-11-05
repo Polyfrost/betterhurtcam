@@ -2,9 +2,9 @@ package net.uku3lig.betterhurtcam.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import net.minecraft.client.render.GameRenderer;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.LivingEntity;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.world.entity.LivingEntity;
 import net.uku3lig.betterhurtcam.BetterHurtCam;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -14,17 +14,17 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(GameRenderer.class)
 public class MixinGameRenderer {
-    @ModifyArg(at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/RotationAxis;rotationDegrees(F)Lorg/joml/Quaternionf;"), method = "tiltViewWhenHurt", require = 4)
+    @ModifyArg(at = @At(value = "INVOKE", target = "Lcom/mojang/math/Axis;rotationDegrees(F)Lorg/joml/Quaternionf;"), method = "bobHurt", require = 4)
     public float changeBobIntensity(float value) {
         return (float) (BetterHurtCam.getManager().getConfig().getMultiplier() * value);
     }
 
-    @Inject(method = "tiltViewWhenHurt", at = @At("HEAD"), cancellable = true)
-    public void disableHurtCam(MatrixStack matrices, float tickDelta, CallbackInfo ci) {
+    @Inject(method = "bobHurt", at = @At("HEAD"), cancellable = true)
+    public void disableHurtCam(PoseStack matrices, float tickDelta, CallbackInfo ci) {
         if (!BetterHurtCam.getManager().getConfig().isEnabled()) ci.cancel();
     }
 
-    @WrapOperation(method = "tiltViewWhenHurt", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;getDamageTiltYaw()F"))
+    @WrapOperation(method = "bobHurt", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;getHurtDir()F"))
     public float changeHurtCamType(LivingEntity instance, Operation<Float> original) {
         return switch (BetterHurtCam.getManager().getConfig().getType()) {
             case OLD -> 0;

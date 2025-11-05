@@ -8,6 +8,6 @@
   },
   "client": [
     "MixinGameRenderer",
-    "MixinInGameHud"
+    "MixinGui"
   ]
 }
