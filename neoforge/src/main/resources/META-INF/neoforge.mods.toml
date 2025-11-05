@@ -1,0 +1,38 @@
+modLoader = "javafml"
+loaderVersion = "[4,)"
+license = "MIT"
+
+[[mods]]
+modId = "betterhurtcam"
+displayName = "BetterHurtCam"
+version = "${version}"
+
+logoFile = "assets/betterhurtcam/icon.png"
+authors = "uku"
+description = '''
+nohurtcam but better
+'''
+
+[[dependencies.betterhurtcam]]
+modId = "minecraft"
+type = "required"
+versionRange = "[1.21.9,)"
+ordering = "NONE"
+side = "CLIENT"
+
+[[dependencies.betterhurtcam]]
+modId = "neoforge"
+type = "required"
+versionRange = "[21.10.47-beta,)"
+ordering = "NONE"
+side = "CLIENT"
+
+[[dependencies.betterhurtcam]]
+modId = "ukulib"
+type = "required"
+versionRange = "[2.0.0-alpha.1+mc1.21.10-build.265,)"
+ordering = "NONE"
+side = "CLIENT"
+
+[[mixins]]
+config = "betterhurtcam.mixins.json"
