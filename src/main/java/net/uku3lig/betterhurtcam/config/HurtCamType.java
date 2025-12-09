@@ -2,15 +2,15 @@ package net.uku3lig.betterhurtcam.config;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import net.minecraft.util.TranslatableOption;
+import net.uku3lig.ukulib.config.option.StringTranslatable;
 
 @Getter
 @AllArgsConstructor
-public enum HurtCamType implements TranslatableOption {
-    OLD(0, "betterhurtcam.type.old"),
-    YAW_BASED(1, "betterhurtcam.type.yawBased"),
+public enum HurtCamType implements StringTranslatable {
+    OLD("old", "betterhurtcam.type.old"),
+    YAW_BASED("yaw_based", "betterhurtcam.type.yawBased"),
     ;
 
-    private final int id;
+    private final String name;
     private final String translationKey;
 }
