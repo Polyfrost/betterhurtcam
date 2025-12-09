@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 
 @Mixin(Gui.class)
-public class MixinInGameHud {
+public class MixinGui {
     @ModifyArg(method = "renderPlayerHealth", index = 10, at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Gui;renderHearts(Lnet/minecraft/client/gui/GuiGraphics;Lnet/minecraft/world/entity/player/Player;IIIIFIIIZ)V"))
     public boolean renderHearts(boolean blinking) {
         return blinking && BetterHurtCam.getManager().getConfig().isHeartBlink();
