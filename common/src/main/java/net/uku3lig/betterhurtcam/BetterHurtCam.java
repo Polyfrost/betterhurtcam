@@ -2,7 +2,6 @@ package net.uku3lig.betterhurtcam;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import lombok.Getter;
-import net.fabricmc.api.ModInitializer;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.network.chat.Component;
@@ -12,7 +11,7 @@ import net.uku3lig.ukulib.config.ConfigManager;
 import net.uku3lig.ukulib.utils.Ukutils;
 import org.lwjgl.glfw.GLFW;
 
-public class BetterHurtCam implements ModInitializer {
+public class BetterHurtCam {
     private static final KeyMapping.Category CATEGORY = KeyMapping.Category.register(Identifier.fromNamespaceAndPath("betterhurtcam", "key"));
 
     private static final KeyMapping toggle = new KeyMapping("key.betterhurtcam.toggle", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_F8, CATEGORY);
@@ -23,8 +22,7 @@ public class BetterHurtCam implements ModInitializer {
     private static final ConfigManager<BHCConfig> manager = ConfigManager.createDefault(BHCConfig.class, "betterhurtcam");
 
 
-    @Override
-    public void onInitialize() {
+    public static void onInitialize() {
         Ukutils.registerToggleBind(toggle, () -> manager.getConfig().isEnabled(), b -> manager.getConfig().setEnabled(b), Component.literal("Hurtcam"));
 
         Ukutils.registerKeybinding(plus, client -> {
@@ -46,7 +44,7 @@ public class BetterHurtCam implements ModInitializer {
         });
     }
 
-    private Component getMultiplierText() {
+    private static Component getMultiplierText() {
         String multValue = "%.2f".formatted(manager.getConfig().getMultiplier());
         Component multText = Component.literal(multValue).withStyle(ChatFormatting.BOLD, ChatFormatting.DARK_AQUA);
         return Component.literal("Hurtcam multiplier modified to ").append(multText);

@@ -15,8 +15,8 @@
   "icon": "assets/betterhurtcam/icon.png",
   "environment": "client",
   "entrypoints": {
-    "main": [
-      "net.uku3lig.betterhurtcam.BetterHurtCam"
+    "client": [
+      "net.uku3lig.betterhurtcam.fabric.BHCFabric"
     ],
     "ukulib": [
       "net.uku3lig.betterhurtcam.UkulibIntegration"
