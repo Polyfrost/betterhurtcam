@@ -4,8 +4,10 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.client.renderer.state.level.CameraEntityRenderState;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.uku3lig.betterhurtcam.BetterHurtCam;
+import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -20,12 +22,12 @@ public class MixinGameRenderer {
     }
 
     @Inject(method = "bobHurt", at = @At("HEAD"), cancellable = true)
-    public void disableHurtCam(PoseStack matrices, float tickDelta, CallbackInfo ci) {
+    public void disableHurtCam(CameraRenderState cameraState, PoseStack poseStack, CallbackInfo ci) {
         if (!BetterHurtCam.getManager().getConfig().isEnabled()) ci.cancel();
     }
 
-    @WrapOperation(method = "bobHurt", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;getHurtDir()F"))
-    public float changeHurtCamType(LivingEntity instance, Operation<Float> original) {
+    @WrapOperation(method = "bobHurt", at = @At(value = "FIELD", target = "Lnet/minecraft/client/renderer/state/level/CameraEntityRenderState;hurtDir:F", opcode = Opcodes.GETFIELD))
+    public float changeHurtCamType(CameraEntityRenderState instance, Operation<Float> original) {
         return switch (BetterHurtCam.getManager().getConfig().getType()) {
             case OLD -> 0;
             case YAW_BASED -> original.call(instance);

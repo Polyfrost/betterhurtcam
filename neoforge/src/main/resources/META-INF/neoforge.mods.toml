@@ -34,3 +34,6 @@ side = "CLIENT"
 
 [[mixins]]
 config = "betterhurtcam.mixins.json"
+
+[[mixins]]
+config = "betterhurtcam-neoforge.mixins.json"

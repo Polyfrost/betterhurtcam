@@ -17,8 +17,7 @@ public class BHCConfig implements Serializable {
     private boolean heartBlink = true;
     private HurtCamType type = HurtCamType.YAW_BASED;
 
-    public double modifyMultiplier(double delta) {
+    public void modifyMultiplier(double delta) {
         this.multiplier += delta;
-        return this.multiplier;
     }
 }

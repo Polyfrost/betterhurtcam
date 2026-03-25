@@ -30,7 +30,7 @@ public class BetterHurtCam {
             manager.saveConfig();
 
             if (client.player != null) {
-                client.player.displayClientMessage(getMultiplierText(), true);
+                client.player.sendOverlayMessage(getMultiplierText());
             }
         });
 
@@ -39,7 +39,7 @@ public class BetterHurtCam {
             manager.saveConfig();
 
             if (client.player != null) {
-                client.player.displayClientMessage(getMultiplierText(), true);
+                client.player.sendOverlayMessage(getMultiplierText());
             }
         });
     }
