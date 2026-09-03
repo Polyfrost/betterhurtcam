@@ -1,139 +1,69 @@
 package net.uku3lig.betterhurtcam;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.List;
-import net.fabricmc.loader.api.FabricLoader;
+import org.polyfrost.oneconfig.api.config.v1.Config;
+import org.polyfrost.oneconfig.api.config.v1.annotations.Dropdown;
+import org.polyfrost.oneconfig.api.config.v1.annotations.Number;
+import org.polyfrost.oneconfig.api.config.v1.annotations.Switch;
 
 /**
- * Small TOML reader/writer for the stable BetterHurtCam configuration schema.
+ * OneConfig presentation and persistence for the unchanged BetterHurtCam TOML schema.
  *
- * <p>The upstream library writes only four scalar values, so keeping this local
- * avoids adding a config-library dependency to an otherwise small legacy mod.</p>
+ * <p>The file ID intentionally includes {@code .toml}; OneConfig then reads and writes
+ * the same {@code config/betterhurtcam.toml} file used by upstream BetterHurtCam.</p>
  */
-final class BetterHurtCamConfig {
-	private final Path path = FabricLoader.getInstance().getConfigDir().resolve("betterhurtcam.toml");
-	private boolean enabled = true;
-	private double multiplier = 0.3D;
-	private boolean heartBlink = true;
-	private HurtCamType type = HurtCamType.YAW_BASED;
+public final class BetterHurtCamConfig extends Config {
+	public static final BetterHurtCamConfig INSTANCE = new BetterHurtCamConfig();
 
-	void load() {
-		if (!Files.isRegularFile(path)) {
-			save();
-			return;
-		}
+	@Switch(title = "Enable HurtCam", category = "BetterHurtCam")
+	public boolean enabled = true;
 
-		try {
-			for (String line : Files.readAllLines(path, StandardCharsets.UTF_8)) {
-				readLine(line);
-			}
-		} catch (IOException ignored) {
-			// Keep upstream defaults when a local file cannot be read.
-		}
+	@Number(
+		title = "HurtCam multiplier",
+		description = "Multiplies the damage camera rotation. Set to 0 to remove it.",
+		category = "BetterHurtCam",
+		min = -3.4028235E38f,
+		max = 3.4028235E38f
+	)
+	public double multiplier = 0.3D;
+
+	@Switch(title = "Health bar blinking", category = "BetterHurtCam")
+	public boolean heartBlink = true;
+
+	@Dropdown(
+		title = "HurtCam type",
+		description = "OLD removes horizontal damage-direction rotation.",
+		category = "BetterHurtCam",
+		options = {"OLD", "YAW_BASED"}
+	)
+	public String type = "YAW_BASED";
+
+	private BetterHurtCamConfig() {
+		super("betterhurtcam.toml", "assets/betterhurtcam/icon.png", "BetterHurtCam", Category.VISUALS);
 	}
 
-	boolean isEnabled() {
-		return enabled;
+	public HurtCamType getType() {
+		return HurtCamType.parse(type);
 	}
 
-	void setEnabled(boolean enabled) {
+	public void setType(HurtCamType type) {
+		this.type = (type == null ? HurtCamType.YAW_BASED : type).name();
+		save();
+	}
+
+	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 		save();
 	}
 
-	double getMultiplier() {
-		return multiplier;
-	}
-
-	void setMultiplier(double multiplier) {
+	public void setMultiplier(double multiplier) {
 		if (Double.isFinite(multiplier)) {
 			this.multiplier = multiplier;
 			save();
 		}
 	}
 
-	boolean isHeartBlink() {
-		return heartBlink;
-	}
-
-	void setHeartBlink(boolean heartBlink) {
+	public void setHeartBlink(boolean heartBlink) {
 		this.heartBlink = heartBlink;
 		save();
-	}
-
-	HurtCamType getType() {
-		return type;
-	}
-
-	void setType(HurtCamType type) {
-		this.type = type == null ? HurtCamType.YAW_BASED : type;
-		save();
-	}
-
-	private void readLine(String line) {
-		int equals = line.indexOf('=');
-		if (equals < 1) {
-			return;
-		}
-
-		String key = line.substring(0, equals).trim();
-		String value = withoutComment(line.substring(equals + 1)).trim();
-		if ("enabled".equals(key)) {
-			enabled = parseBoolean(value, enabled);
-		} else if ("multiplier".equals(key)) {
-			try {
-				double parsed = Double.parseDouble(value);
-				if (Double.isFinite(parsed)) {
-					multiplier = parsed;
-				}
-			} catch (NumberFormatException ignored) {
-				// Keep the last valid value.
-			}
-		} else if ("heartBlink".equals(key)) {
-			heartBlink = parseBoolean(value, heartBlink);
-		} else if ("type".equals(key)) {
-			type = HurtCamType.parse(value);
-		}
-	}
-
-	private static String withoutComment(String value) {
-		boolean quoted = false;
-		for (int index = 0; index < value.length(); index++) {
-			char character = value.charAt(index);
-			if (character == '\"') {
-				quoted = !quoted;
-			} else if (character == '#' && !quoted) {
-				return value.substring(0, index);
-			}
-		}
-		return value;
-	}
-
-	private static boolean parseBoolean(String value, boolean fallback) {
-		if ("true".equalsIgnoreCase(value)) {
-			return true;
-		}
-		if ("false".equalsIgnoreCase(value)) {
-			return false;
-		}
-		return fallback;
-	}
-
-	private void save() {
-		List<String> lines = List.of(
-			"enabled = " + enabled,
-			"multiplier = " + Double.toString(multiplier),
-			"heartBlink = " + heartBlink,
-			"type = \"" + type.name() + "\""
-		);
-		try {
-			Files.createDirectories(path.getParent());
-			Files.write(path, lines, StandardCharsets.UTF_8);
-		} catch (IOException ignored) {
-			// The in-memory change remains effective for this session.
-		}
 	}
 }

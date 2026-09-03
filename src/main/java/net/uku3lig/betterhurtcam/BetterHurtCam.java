@@ -11,7 +11,7 @@ import org.lwjgl.input.Keyboard;
 
 public final class BetterHurtCam implements ClientModInitializer {
 	public static final String MOD_ID = "betterhurtcam";
-	private static final BetterHurtCamConfig CONFIG = new BetterHurtCamConfig();
+	private static final BetterHurtCamConfig CONFIG = BetterHurtCamConfig.INSTANCE;
 	private static final KeyBinding TOGGLE = new KeyBinding(
 		"key.betterhurtcam.toggle", Keyboard.KEY_F8, "category.betterhurtcam");
 	private static final KeyBinding INCREASE = new KeyBinding(
@@ -21,7 +21,10 @@ public final class BetterHurtCam implements ClientModInitializer {
 
 	@Override
 	public void initClient() {
-		CONFIG.load();
+		// OneConfig's main initializer can run before this mod is discovered. Preload
+		// explicitly so a late-registered config still joins its active tree and
+		// preserves BetterHurtCam's original first-launch TOML behavior.
+		CONFIG.preload();
 		KeybindEvents.REGISTER_KEYBINDS.register(() -> {
 			KeybindRegistry.register(TOGGLE);
 			KeybindRegistry.register(INCREASE);
@@ -32,8 +35,8 @@ public final class BetterHurtCam implements ClientModInitializer {
 
 	private static void handleKeybinds(Minecraft minecraft) {
 		while (TOGGLE.consumeClick()) {
-			CONFIG.setEnabled(!CONFIG.isEnabled());
-			showStatus(minecraft, "HurtCam " + (CONFIG.isEnabled() ? "enabled" : "disabled"));
+			CONFIG.setEnabled(!CONFIG.enabled);
+			showStatus(minecraft, "HurtCam " + (CONFIG.enabled ? "enabled" : "disabled"));
 		}
 		while (INCREASE.consumeClick()) {
 			changeMultiplier(minecraft, 0.1D);
@@ -44,8 +47,8 @@ public final class BetterHurtCam implements ClientModInitializer {
 	}
 
 	private static void changeMultiplier(Minecraft minecraft, double delta) {
-		CONFIG.setMultiplier(CONFIG.getMultiplier() + delta);
-		showStatus(minecraft, "HurtCam multiplier: " + String.format(Locale.ROOT, "%.2f", CONFIG.getMultiplier()));
+		CONFIG.setMultiplier(CONFIG.multiplier + delta);
+		showStatus(minecraft, "HurtCam multiplier: " + String.format(Locale.ROOT, "%.2f", CONFIG.multiplier));
 	}
 
 	private static void showStatus(Minecraft minecraft, String message) {
@@ -55,7 +58,7 @@ public final class BetterHurtCam implements ClientModInitializer {
 	}
 
 	public static boolean isEnabled() {
-		return CONFIG.isEnabled();
+		return CONFIG.enabled;
 	}
 
 	public static void setEnabled(boolean enabled) {
@@ -63,7 +66,7 @@ public final class BetterHurtCam implements ClientModInitializer {
 	}
 
 	public static double getMultiplier() {
-		return CONFIG.getMultiplier();
+		return CONFIG.multiplier;
 	}
 
 	public static void setMultiplier(double multiplier) {
@@ -71,7 +74,7 @@ public final class BetterHurtCam implements ClientModInitializer {
 	}
 
 	public static boolean isHeartBlinkEnabled() {
-		return CONFIG.isHeartBlink();
+		return CONFIG.heartBlink;
 	}
 
 	public static void setHeartBlinkEnabled(boolean heartBlink) {
