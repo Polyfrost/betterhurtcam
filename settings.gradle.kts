@@ -1,11 +1,10 @@
-rootProject.name = "betterhurtcam"
-
 pluginManagement {
-    repositories {
-        maven { url = uri("https://maven.fabricmc.net/") }
-        maven { url = uri("https://maven.neoforged.net/releases/") }
-        gradlePluginPortal()
-    }
+	repositories {
+		maven("https://maven.fabricmc.net/")
+		maven("https://maven.ornithemc.net/releases")
+		maven("https://maven.ornithemc.net/snapshots")
+		gradlePluginPortal()
+	}
 }
 
-include("common", "fabric", "neoforge")
+rootProject.name = "betterhurtcam-ornithe-1.8.9"
