@@ -7,13 +7,11 @@ BetterHurtCam can disable the damage camera effect or adjust its multiplier. It 
 ## Requirements
 
 - Minecraft 1.8.9
-- Fabric Loader 0.19.3 or newer
-- OneConfig `1.1.12` for Ornithe 1.8.9, built from [`Polyfrost/OneConfig` `legacy` commit `077ff616`](https://github.com/Polyfrost/OneConfig/tree/077ff616455e3b67d1a117feb5d9d25e7d57a2ef)
-- The matching Compose Multiplatform bundle and Fabric Language Kotlin version required by that OneConfig build
-- OSL `0.21.0-alpha.34` components required by that OneConfig build
-- Mod Menu 0.5.0 or newer is optional, but provides a direct Configure button for the OneConfig screen
+- Fabric Loader and the current Ornithe runtime libraries
+- OneConfig for Ornithe and its matching runtime dependencies
+- Mod Menu is optional, but provides a direct Configure button
 
-The OneConfig dependencies are external libraries; BetterHurtCam does not bundle, modify, or redistribute them.
+Dependency versions are maintained with the active Ornithe and OneConfig work. BetterHurtCam keeps OneConfig external and does not bundle or modify it.
 
 ## Configuration compatibility
 
@@ -30,7 +28,7 @@ type = "YAW_BASED"
 
 ## Build
 
-Use a JDK 17 or newer and an authenticated [GitHub CLI](https://cli.github.com/). The build downloads the exact OneConfig CI artifact above, verifies its published SHA-256, and uses its embedded API only for compilation. On this machine, the tested command is:
+Use JDK 17 or newer. While OneConfig's Ornithe build is unpublished, an authenticated [GitHub CLI](https://cli.github.com/) is also needed to obtain its development artifact for compilation.
 
 ```sh
 JAVA_HOME="$HOME/.local/share/ElyPrismLauncher/java/java-runtime-epsilon" ./gradlew build
@@ -38,7 +36,7 @@ JAVA_HOME="$HOME/.local/share/ElyPrismLauncher/java/java-runtime-epsilon" ./grad
 
 The release JAR is written to `build/libs/`.
 
-See [COMPATIBILITY.md](COMPATIBILITY.md) for the reviewed PineconeMC test profile and first-launch checks.
+See [COMPATIBILITY.md](COMPATIBILITY.md) for the PineconeMC test profile and validation notes.
 
 ## License
 
