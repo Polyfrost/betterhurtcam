@@ -36,8 +36,6 @@ JAVA_HOME="$HOME/.local/share/ElyPrismLauncher/java/java-runtime-epsilon" ./grad
 
 The release JAR is written to `build/libs/`.
 
-See [COMPATIBILITY.md](COMPATIBILITY.md) for the PineconeMC test profile and validation notes.
-
 ## License
 
 This backport retains the upstream [MIT license](LICENSE).
