@@ -26,15 +26,6 @@ type = "YAW_BASED"
 
 `type` accepts both the current enum form (`YAW_BASED` / `OLD`) and the previous lowercase identifiers. On 1.8.9, `OLD` removes the horizontal damage-direction rotations and `YAW_BASED` preserves them.
 
-## Build
-
-Use JDK 17 or newer. While OneConfig's Ornithe build is unpublished, an authenticated [GitHub CLI](https://cli.github.com/) is also needed to obtain its development artifact for compilation.
-
-```sh
-JAVA_HOME="$HOME/.local/share/ElyPrismLauncher/java/java-runtime-epsilon" ./gradlew build
-```
-
-The release JAR is written to `build/libs/`.
 
 ## License
 
