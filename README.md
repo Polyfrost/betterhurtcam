@@ -1,17 +1,17 @@
-# BetterHurtCam for Ornithe 1.8.9
+# BetterHurtCam for fabric (ornithe) 1.8.9
 
-Native Ornithe backport of [BetterHurtCam](https://modrinth.com/mod/betterhurtcam), based on upstream 1.14.0.
+Native fabric (ornithe) backport of [BetterHurtCam](https://modrinth.com/mod/betterhurtcam), based on upstream 1.14.0.
 
-BetterHurtCam can disable the damage camera effect or adjust its multiplier. It retains the upstream toggle, increase, and decrease keybindings and health-bar blinking control. Settings are presented through the native Ornithe 1.8.9 OneConfig port and remain stored in BetterHurtCam's upstream-compatible TOML file.
+BetterHurtCam can disable the damage camera effect or adjust its multiplier. It retains the upstream toggle, increase, and decrease keybindings and health-bar blinking control. Settings are presented through the native fabric (ornithe) 1.8.9 OneConfig port and remain stored in BetterHurtCam's upstream-compatible TOML file.
 
 ## Requirements
 
 - Minecraft 1.8.9
-- Fabric Loader and the current Ornithe runtime libraries
-- OneConfig for Ornithe and its matching runtime dependencies
+- fabric (ornithe) Loader and the current fabric (ornithe) runtime libraries
+- OneConfig for fabric (ornithe) and its matching runtime dependencies
 - Mod Menu is optional, but provides a direct Configure button
 
-Dependency versions are maintained with the active Ornithe and OneConfig work. BetterHurtCam keeps OneConfig external and does not bundle or modify it.
+Dependency versions are maintained with the active fabric (ornithe) and OneConfig work. BetterHurtCam keeps OneConfig external and does not bundle or modify it.
 
 ## Configuration compatibility
 
