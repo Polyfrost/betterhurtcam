@@ -6,7 +6,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
-@Mixin(GameGui.class)
+@Mixin(value = GameGui.class, priority = 900)
 public abstract class GameGuiMixin {
 	@ModifyVariable(method = "renderStatusBars", at = @At(value = "STORE"), ordinal = 0)
 	private boolean betterhurtcam$disableHealthBlink(boolean blinking) {

@@ -13,6 +13,10 @@ val oneConfigVersion = "1.2.3"
 repositories {
 	maven("https://moehreag.duckdns.org/maven/releases")
 	maven("https://repo.polyfrost.org/releases")
+	exclusiveContent {
+		forRepository { maven("https://api.modrinth.com/maven") }
+		filter { includeGroup("maven.modrinth") }
+	}
 	mavenCentral()
 }
 
@@ -40,6 +44,7 @@ dependencies {
 	modImplementation("com.terraformersmc:modmenu:0.5.0+mc1.8.9")
 	compileOnly("org.polyfrost.oneconfig:config-impl:$oneConfigVersion@jar")
 	compileOnly("org.polyfrost.oneconfig:config:$oneConfigVersion@jar")
+	modCompileOnly("maven.modrinth:animations:LwiBywpA")
 }
 
 tasks.processResources {

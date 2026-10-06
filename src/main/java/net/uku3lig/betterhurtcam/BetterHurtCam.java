@@ -31,6 +31,7 @@ public final class BetterHurtCam implements ClientModInitializer {
 			KeybindRegistry.register(DECREASE);
 		});
 		MinecraftClientEvents.TICK_END.register(BetterHurtCam::handleKeybinds);
+		MinecraftClientEvents.TICK_END.register(minecraft -> CONFIG.refreshHeartBlinkOverride());
 	}
 
 	private static void handleKeybinds(Minecraft minecraft) {

@@ -1,9 +1,12 @@
 package net.uku3lig.betterhurtcam;
 
+import net.fabricmc.loader.api.FabricLoader;
 import org.polyfrost.oneconfig.api.config.v1.Config;
+import org.polyfrost.oneconfig.api.config.v1.Property;
 import org.polyfrost.oneconfig.api.config.v1.annotations.Dropdown;
 import org.polyfrost.oneconfig.api.config.v1.annotations.Number;
 import org.polyfrost.oneconfig.api.config.v1.annotations.Switch;
+import org.polyfrost.overflowanimations.config.OverflowAnimationsConfig;
 
 /**
  * OneConfig presentation and persistence for the unchanged BetterHurtCam TOML schema.
@@ -26,7 +29,11 @@ public final class BetterHurtCamConfig extends Config {
 	)
 	public double multiplier = 0.3D;
 
-	@Switch(title = "Health bar blinking", category = "BetterHurtCam")
+	@Switch(
+		title = "Health bar blinking",
+		description = "Has no effect while OverflowAnimations' Disable Heart Flash is on, as that option takes over.",
+		category = "BetterHurtCam"
+	)
 	public boolean heartBlink = true;
 
 	@Dropdown(
@@ -37,12 +44,32 @@ public final class BetterHurtCamConfig extends Config {
 	)
 	public String type = "YAW_BASED";
 
+	@Switch(
+		title = "Use OLD HurtCam type",
+		description = "Forces the OLD type on 1.8 regardless of the HurtCam type above. Only exists on 1.8.",
+		category = "BetterHurtCam"
+	)
+	public boolean oldTypeIn18 = true;
+
+	private static final boolean OVERFLOW_ANIMATIONS = FabricLoader.getInstance().isModLoaded("overflowanimations");
+	private boolean heartBlinkOverridden;
+
 	private BetterHurtCamConfig() {
 		super("betterhurtcam.toml", "assets/betterhurtcam/icon.png", "BetterHurtCam", Category.VISUALS);
+		addDependency("heartBlink", "OverflowAnimations' Disable Heart Flash being off",
+			() -> heartBlinkOverridden ? Property.Display.DISABLED : Property.Display.SHOWN);
+	}
+
+	void refreshHeartBlinkOverride() {
+		boolean overridden = OVERFLOW_ANIMATIONS && OverflowAnimationsConfig.instance().screen.disableHeartFlash;
+		if (overridden != heartBlinkOverridden) {
+			heartBlinkOverridden = overridden;
+			getProperty("heartBlink").revaluateDisplay();
+		}
 	}
 
 	public HurtCamType getType() {
-		return HurtCamType.parse(type);
+		return oldTypeIn18 ? HurtCamType.OLD : HurtCamType.parse(type);
 	}
 
 	public void setType(HurtCamType type) {
