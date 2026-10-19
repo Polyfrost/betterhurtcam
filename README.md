@@ -19,12 +19,14 @@ The mod reads and writes `config/betterhurtcam.toml`, the same file and field na
 
 ```toml
 enabled = true
-multiplier = 0.3
+multiplier = 1.0
 heartBlink = true
 type = "YAW_BASED"
 ```
 
 `type` accepts both the current enum form (`YAW_BASED` / `OLD`) and the previous lowercase identifiers. On 1.8.9, `OLD` removes the horizontal damage-direction rotations and `YAW_BASED` preserves them.
+
+Defaults match vanilla. The file also stores a `configVersion` key; files written before version 1 are reset to the vanilla defaults once on load.
 
 
 ## License

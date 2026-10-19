@@ -4,6 +4,7 @@ import net.fabricmc.loader.api.FabricLoader;
 import org.polyfrost.oneconfig.api.config.v1.Config;
 import org.polyfrost.oneconfig.api.config.v1.Property;
 import org.polyfrost.oneconfig.api.config.v1.annotations.Dropdown;
+import org.polyfrost.oneconfig.api.config.v1.annotations.Include;
 import org.polyfrost.oneconfig.api.config.v1.annotations.Number;
 import org.polyfrost.oneconfig.api.config.v1.annotations.Switch;
 import org.polyfrost.overflowanimations.config.OverflowAnimationsConfig;
@@ -27,7 +28,7 @@ public final class BetterHurtCamConfig extends Config {
 		min = -3.4028235E38f,
 		max = 3.4028235E38f
 	)
-	public double multiplier = 0.3D;
+	public double multiplier = 1.0D;
 
 	@Switch(
 		title = "Health bar blinking",
@@ -51,6 +52,11 @@ public final class BetterHurtCamConfig extends Config {
 	)
 	public boolean oldTypeIn18 = true;
 
+	// Files without this key predate the vanilla defaults and get reset once.
+	@Include
+	public int configVersion = 0;
+	private static final int CONFIG_VERSION = 1;
+
 	private static final boolean OVERFLOW_ANIMATIONS = FabricLoader.getInstance().isModLoaded("overflowanimations");
 	private boolean heartBlinkOverridden;
 
@@ -58,6 +64,20 @@ public final class BetterHurtCamConfig extends Config {
 		super("betterhurtcam.toml", "assets/betterhurtcam/icon.png", "BetterHurtCam", Category.VISUALS);
 		addDependency("heartBlink", "OverflowAnimations' Disable Heart Flash being off",
 			() -> heartBlinkOverridden ? Property.Display.DISABLED : Property.Display.SHOWN);
+	}
+
+	@Override
+	protected void initialize(boolean byConfigManager) {
+		super.initialize(byConfigManager);
+		if (configVersion < CONFIG_VERSION) {
+			enabled = true;
+			multiplier = 1.0D;
+			heartBlink = true;
+			type = HurtCamType.YAW_BASED.name();
+			oldTypeIn18 = true;
+			configVersion = CONFIG_VERSION;
+			save();
+		}
 	}
 
 	void refreshHeartBlinkOverride() {
