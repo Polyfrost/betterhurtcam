@@ -24,6 +24,9 @@
     "osl-keybinds": ">=0.3.0",
     "osl-lifecycle-events": ">=0.6.1"
   },
+  "breaks": {
+    "overflowanimations": "<5.1.0"
+  },
   "suggests": {
     "modmenu": ">=0.5.0"
   }

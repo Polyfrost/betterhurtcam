@@ -32,7 +32,7 @@ public final class BetterHurtCamConfig extends Config {
 
 	@Switch(
 		title = "Health bar blinking",
-		description = "Has no effect while OverflowAnimations' Disable Heart Flash is on, as that option takes over.",
+		description = "Has no effect while OverflowAnimations' Heart Flashing is set to 1.7, as that option takes over.",
 		category = "BetterHurtCam"
 	)
 	public boolean heartBlink = true;
@@ -62,7 +62,7 @@ public final class BetterHurtCamConfig extends Config {
 
 	private BetterHurtCamConfig() {
 		super("betterhurtcam.toml", "assets/betterhurtcam/icon.png", "BetterHurtCam", Category.VISUALS);
-		addDependency("heartBlink", "OverflowAnimations' Disable Heart Flash being off",
+		addDependency("heartBlink", "OverflowAnimations' Heart Flashing being 1.8+",
 			() -> heartBlinkOverridden ? Property.Display.DISABLED : Property.Display.SHOWN);
 	}
 
@@ -81,7 +81,7 @@ public final class BetterHurtCamConfig extends Config {
 	}
 
 	void refreshHeartBlinkOverride() {
-		boolean overridden = OVERFLOW_ANIMATIONS && OverflowAnimationsConfig.instance().screen.disableHeartFlash;
+		boolean overridden = OVERFLOW_ANIMATIONS && OverflowAnimationsConfig.instance().screen.healthBarFlashing.isOld();
 		if (overridden != heartBlinkOverridden) {
 			heartBlinkOverridden = overridden;
 			getProperty("heartBlink").revaluateDisplay();

@@ -44,7 +44,7 @@ dependencies {
 	modImplementation("com.terraformersmc:modmenu:0.5.0+mc1.8.9")
 	compileOnly("org.polyfrost.oneconfig:config-impl:$oneConfigVersion@jar")
 	compileOnly("org.polyfrost.oneconfig:config:$oneConfigVersion@jar")
-	modCompileOnly("maven.modrinth:animations:LwiBywpA")
+	modCompileOnly("maven.modrinth:animations:X9HGErCN")
 }
 
 tasks.processResources {
