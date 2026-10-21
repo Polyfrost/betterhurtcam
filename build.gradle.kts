@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "net.uku3lig.betterhurtcam"
-version = "1.15.2+mc1.8.9-ornithe"
+version = "1.15.3+mc1.8.9-ornithe"
 base.archivesName = "BetterHurtCam"
 
 val oneConfigVersion = "1.2.3"
